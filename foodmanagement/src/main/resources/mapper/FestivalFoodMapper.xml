@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.design.foodmanagement.mapper.FestivalFoodMapper">
+
+    <resultMap type="com.design.foodmanagement.pojo.FestivalFood" id="FestivalFoodMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="descb" column="descb" jdbcType="VARCHAR"/>
+        <result property="images" column="images" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FestivalFoodMap">
+        select
+         *
+        from festival_food
+        where id = #{id}
+    </select>
+
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into festival_food(title, descb, images, type,show_in,created_by,created_at)
+        values (#{title}, #{descb}, #{images}, #{type},0,'admin',now())
+    </insert>
+
+    <select id="getPageListByCondition" resultMap="FestivalFoodMap">
+        select * from festival_food where created_at is not null
+        <if test="page.key.type != null and page.key.type != ''">
+            and  type = #{page.key.type}
+        </if>
+        order by
+        created_at desc
+        <!--分页查询-->
+        <!--比如 pageNum=1 pageSize=10为 第一页开始 查10条数据 ((#{page.pageNum}-1)*#{page.pageSize})=0*10,10 则表示从1开始查10条数据-->
+        limit  #{page.startNum} , #{page.pageSize}
+    </select>
+     <!--分页查询条数-->
+    <select id="getPageListCount" resultType="int">
+        select count(id) as count from festival_food where created_at is not null
+        <if test="page.key.type != null and page.key.type != ''">
+            and  type = #{page.key.type}
+        </if>
+    </select>
+
+   
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update festival_food
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="descb != null and descb != ''">
+                descb = #{descb},
+            </if>
+            <if test="images != null and images != ''">
+                images = #{images},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="showIn != null">
+                show_in = #{showIn},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from festival_food where id = #{id}
+    </delete>
+    <select id="getNewProduct"  resultMap="FestivalFoodMap">
+        select * from festival_food where show_in =1 and type='new' order by id desc limit 0,3
+    </select>
+    <select id="getRecommend"  resultMap="FestivalFoodMap">
+         select * from festival_food where show_in =1 and type='recommend' order by id desc limit 0,4
+    </select>
+    <select id="getFestivalFood"  resultMap="FestivalFoodMap">
+        select * from festival_food where show_in =1 and type='festival' order by id
+    </select>
+    <update id="showIn">
+        update festival_food set show_in=#{showIn} where id =#{id}
+    </update>
+    <select id="getFoodActive" resultMap="FestivalFoodMap">
+        select *  from festival_food where show_in =1 and type='active' order by id
+    </select>
+</mapper>
+

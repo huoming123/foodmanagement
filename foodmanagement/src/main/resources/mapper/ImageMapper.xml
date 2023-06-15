@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.design.foodmanagement.mapper.ImageMapper">
+
+    <resultMap type="com.design.foodmanagement.pojo.Image" id="ImageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="images" column="images" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ImageMap">
+        select
+          id, images, type
+        from image
+        where id = #{id}
+    </select>
+
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into image(images, type,created_at,created_by)
+        values (#{images}, #{type},now(),'admin')
+    </insert>
+     <!--分页查询-->
+    <select id="getPageListByCondition" resultMap="ImageMap">
+        select * from image where created_at is not null
+        <if test="page.key.type != null and page.key.type != ''">
+            and  type = #{page.key.type}
+        </if>
+        order by
+        created_at desc
+        <!--分页查询-->
+        <!--比如 pageNum=1 pageSize=10为 第一页开始 查10条数据 ((#{page.pageNum}-1)*#{page.pageSize})=0*10,10 则表示从1开始查10条数据-->
+        limit  #{page.startNum} , #{page.pageSize}
+    </select>
+    <!--分页查询条数-->
+    <select id="getPageListCount" resultType="int">
+        select count(id) as count from image where created_at is not null
+        <if test="page.key.type != null and page.key.type != ''">
+            and  type = #{page.key.type}
+        </if>
+    </select>
+
+   
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update image
+        <set>
+            <if test="images != null and images != ''">
+                images = #{images},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from image where id = #{id}
+    </delete>
+    <select id="getSlideshow" resultMap="ImageMap">
+        select  * from image where type='slideshow'
+    </select>
+    <select id="getFoodImage" resultMap="ImageMap">
+                select  * from image where type='foodImage'
+    </select>
+</mapper>
+
