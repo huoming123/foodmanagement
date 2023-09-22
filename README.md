@@ -1,5 +1,5 @@
 # 基于JAVA的美食宣传网站 
-（项目包含源码+开题报告+论文+开题答辩PPT+毕业答辩PPT）(需要完整项目文件加微信13650154582)  
+
 #  接计算机毕业设计（代码注释详细+做完会录制视频讲解 需要加微信13650154582）  
 #b站代码视频讲解地址链接：https://www.bilibili.com/video/BV1KW4y1p7kN/?spm_id_from=333.337.search-card.all.click
 # 项目文件
