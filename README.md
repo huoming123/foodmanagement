@@ -1,6 +1,6 @@
 # 基于JAVA的美食宣传网站 
 
-#  接计算机毕业设计（代码注释详细+做完会录制视频讲解 需要加微信13650154582）  
+#接计算机毕业设计（代码注释详细+做完会录制视频讲解 需要加微信13650154582）  
 #b站代码视频讲解地址链接：https://www.bilibili.com/video/BV1KW4y1p7kN/?spm_id_from=333.337.search-card.all.click
 # 项目文件
 ![Image text](https://github.com/huoming123/foodmanagement/blob/main/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6.png)   
